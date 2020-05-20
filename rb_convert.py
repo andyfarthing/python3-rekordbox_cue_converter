@@ -25,6 +25,13 @@ def main(argv):
 
 
 def convert_file(input_file, output_file):
+    """Converts a Rekordbox-generated CUE file into something
+    that other programs can read.
+
+    Arguments:
+        input_file {string} -- Path to the input file
+        output_file {string} -- File to output
+    """
     with open(input_file, "r") as input:
         with open(output_file, "w") as output:
             lines = input.readlines()
@@ -48,12 +55,21 @@ def convert_file(input_file, output_file):
                 # WAV file it generates.
                 elif "FILE" in line and line_number != 4:
                     pass
-                # Write everything else staright to the output
+                # Write everything else straight to the output
                 else:
                     output.write(line)
 
 
 def convert_time(line):
+    """Converts a HH:MM:SS timestamp into MM:SS:FF
+
+    Arguments:
+        line {string} -- Line from the CUE file
+            containing the timestamp
+
+    Returns:
+        {string} -- New timestamp in MM:SS:FF format
+    """
     # Search for the timestamp in the INDEX line
     timestamp = re.findall("([0-9][0-9]*)", line)
     # Delete the first match as this is the INDEX number
